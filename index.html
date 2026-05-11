@@ -666,125 +666,102 @@
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑</button>
 
 <script>
-  // 총 상품 수 카운트
   const allItems = document.querySelectorAll('.product-item');
   document.getElementById('totalCount').textContent = allItems.length;
 
-  // 스크롤 탑 버튼
   window.addEventListener('scroll', () => {
-    const btn = document.getElementById('scrollTop');
-    btn.classList.toggle('visible', window.scrollY > 300);
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 300);
   });
 
-  // 카테고리 필터
-  else {
-        item.classList.add('hide');
-      }
-    });
-    document.getElementById('best-section').style.display = bestVisible === 0 ? 'none' : '';
-
-    // 목록 카드 필터
-    const listItems = document.querySelectorAll('.list-stack .product-item');
-    listItems.forEach(item => {
-      item.classList.toggle('hide', item.dataset.cat !== cat);
-    });
-
-    // 카테고리 섹션 통째로 숨기기
-    ['kitchen','health','life','elec'].forEach(c => {
-      const sec = document.getElementById('sec-' + c);
-      if (sec) sec.style.display = (c === cat) ? '' : 'none';
-    });
-
-    // divider 처리
-    document.querySelectorAll('hr.divider').forEach(d => d.style.display = 'none');
-  }
   function toggleAdmin() {
     document.getElementById('adminBox').classList.toggle('open');
   }
 
   function previewIframe() {
     const iframeCode = document.getElementById('ai-iframe').value.trim();
-    const name  = document.getElementById('ai-name').value || '상품명이 여기 표시됩니다';
-    const url   = document.getElementById('ai-url').value.trim() || '#';
-    const num   = document.getElementById('ai-num').value || '0000';
-    const tag   = document.getElementById('ai-tag').value || '카테고리';
-    const cat   = document.getElementById('ai-cat').value;
-    const tagColors = { kitchen:'tag-kitchen', health:'tag-health', life:'tag-life', elec:'tag-elec' };
+    const name = document.getElementById('ai-name').value || '상품명이 여기 표시됩니다';
+    const url  = document.getElementById('ai-url').value.trim() || '#';
+    const num  = document.getElementById('ai-num').value || '0000';
+    const tag  = document.getElementById('ai-tag').value || '카테고리';
+    const cat  = document.getElementById('ai-cat').value;
+    const tagMap = { kitchen:'tag-kitchen', health:'tag-health', life:'tag-life', elec:'tag-elec' };
 
     const slot = document.getElementById('prev-iframe-slot');
-    if (iframeCode && iframeCode.includes('<iframe')) {
-      // iframe height를 120으로 줄여서 미리보기
+    if (slot && iframeCode.includes('iframe')) {
       const preview = iframeCode.replace(/height="240"/, 'height="120"').replace(/width="120"/, 'width="100"');
       slot.outerHTML = '<div id="prev-iframe-slot" style="flex-shrink:0;width:100px;height:120px;">' + preview + '</div>';
     }
-    document.getElementById('prev-name2').textContent = name;
-    document.getElementById('prev-num2').textContent = '# ' + num;
-    const tagEl = document.getElementById('prev-tag2');
-    tagEl.textContent = tag;
-    tagEl.className = 'iframe-card-tag ' + (tagColors[cat] || 'tag-kitchen');
-    document.getElementById('prev-btn').href = url;
+    const n = document.getElementById('prev-name2'); if (n) n.textContent = name;
+    const u = document.getElementById('prev-num2');  if (u) u.textContent = '# ' + num;
+    const t = document.getElementById('prev-tag2');
+    if (t) { t.textContent = tag; t.className = 'iframe-card-tag ' + (tagMap[cat] || 'tag-kitchen'); }
+    const b = document.getElementById('prev-btn'); if (b) b.href = url;
   }
 
   function generateCode() {
     const iframeCode = document.getElementById('ai-iframe').value.trim();
-    const name  = document.getElementById('ai-name').value.trim();
-    const url   = document.getElementById('ai-url').value.trim();
-    const num   = document.getElementById('ai-num').value.trim() || '0000';
-    const cat   = document.getElementById('ai-cat').value;
-    const tag   = document.getElementById('ai-tag').value.trim() || '주방';
-    const tagColors = { kitchen:'tag-kitchen', health:'tag-health', life:'tag-life', elec:'tag-elec' };
+    const name = document.getElementById('ai-name').value.trim();
+    const url  = document.getElementById('ai-url').value.trim();
+    const num  = document.getElementById('ai-num').value.trim() || '0000';
+    const cat  = document.getElementById('ai-cat').value;
+    const tag  = document.getElementById('ai-tag').value.trim() || '주방';
+    const tagMap = { kitchen:'tag-kitchen', health:'tag-health', life:'tag-life', elec:'tag-elec' };
+    const tagClass = tagMap[cat] || 'tag-kitchen';
 
     if (!iframeCode || !name || !url) {
       alert('iframe 코드, 상품명, URL은 필수예요!');
       return;
     }
 
-    const code =
-'<div class="iframe-card product-item" data-cat="' + cat + '">
-' +
-'  ' + iframeCode + '
-' +
-'  <div class="iframe-card-info">
-' +
-'    <div class="iframe-card-num"># ' + num + '</div>
-' +
-'    <div class="iframe-card-name">' + name + '</div>
-' +
-'    <span class="iframe-card-tag ' + (tagColors[cat]||'tag-kitchen') + '">' + tag + '</span><br>
-' +
-'    <a class="iframe-card-btn" href="' + url + '" target="_blank">쿠팡에서 보기 →</a>
-' +
-'  </div>
-' +
-'</div>';
+    const lines = [
+      '<div class="iframe-card product-item">',
+      '  ' + iframeCode,
+      '  <div class="iframe-card-info">',
+      '    <div class="iframe-card-num"># ' + num + '</div>',
+      '    <div class="iframe-card-name">' + name + '</div>',
+      '    <span class="iframe-card-tag ' + tagClass + '">' + tag + '</span>',
+      '    <a class="iframe-card-btn" href="' + url + '" target="_blank">쿠팡에서 보기 →</a>',
+      '  </div>',
+      '</div>'
+    ];
+    const code = lines.join(String.fromCharCode(10));
 
     document.getElementById('generatedCode').textContent = code;
     document.getElementById('codeBox').classList.add('open');
+    document.getElementById('codeBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
 
   function copyCode() {
     const code = document.getElementById('generatedCode').textContent;
-    navigator.clipboard.writeText(code).then(() => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(showCopied).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy() {
+      const ta = document.createElement('textarea');
+      ta.value = code;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showCopied();
+    }
+    function showCopied() {
       const msg = document.getElementById('copyMsg');
       msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 2000);
-    });
+      setTimeout(() => msg.style.display = 'none', 2500);
+    }
   }
 
-  );
-  }
-
-  // 페이드인 on scroll
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('fade-in');
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('fade-in'); observer.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-
-  document.querySelectorAll('.best-card, .list-card').forEach(el => observer.observe(el));
+  document.querySelectorAll('.best-card, .list-card, .iframe-card').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
