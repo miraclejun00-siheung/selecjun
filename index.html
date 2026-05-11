@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>셀렉준 · selec-jun | Jun이 직접 고른 살림픽</title>
+<meta name="description" content="40대 자영업자 Jun이 직접 써보고 고른 생활 추천템 모음. 쿠팡 파트너스 링크.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2109@1.0/GmarketSansMedium.woff" rel="preload" as="font" type="font/woff" crossorigin>
+<style>
+  @font-face {
+    font-family: 'GmarketSans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2109@1.0/GmarketSansMedium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'GmarketSans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2109@1.0/GmarketSansBold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFEFB;
+    --orange: #D94F00;
+    --orange-light: #F5E6DC;
+    --orange-mid: #E8896A;
+    --brown: #3D2314;
+    --brown-mid: #7A4E38;
+    --gray-text: #6B6560;
+    --gray-line: #E8E2DA;
+    --gray-bg: #F2EDE6;
+    --font-serif: 'Noto Serif KR', serif;
+    --font-sans: 'Noto Sans KR', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--brown);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--gray-line);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner {
+    max-width: 720px; margin: 0 auto;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; flex-direction: column; gap: 1px;
+    text-decoration: none;
+  }
+  .logo-kr {
+    font-family: var(--font-serif);
+    font-size: 18px; font-weight: 600;
+    color: var(--brown); letter-spacing: -0.5px;
+  }
+  .logo-kr span { color: var(--orange); }
+  .logo-en {
+    font-size: 9px; font-weight: 400;
+    color: var(--gray-text); letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .header-contact {
+    font-size: 11px; color: var(--gray-text);
+    text-decoration: none;
+    border: 1px solid var(--gray-line);
+    padding: 5px 12px; border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .header-contact:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 720px; margin: 0 auto;
+    padding: 48px 20px 36px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--orange-light);
+    color: var(--orange);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.12em;
+    padding: 4px 14px; border-radius: 20px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-title {
+    font-family: 'GmarketSans', var(--font-serif);
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 700; line-height: 1.5;
+    color: var(--brown);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .hero-title em {
+    color: var(--orange); font-style: normal;
+  }
+  .hero-desc {
+    font-size: 13px; color: var(--gray-text);
+    line-height: 1.8; max-width: 360px; margin: 0 auto 24px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .hero-stats {
+    display: flex; gap: 24px; justify-content: center;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: 22px; font-weight: 600; color: var(--brown);
+    display: block;
+  }
+  .stat-label { font-size: 10px; color: var(--gray-text); letter-spacing: 0.05em; }
+
+  /* ── FILTER ── */
+  .filter-wrap {
+    max-width: 720px; margin: 0 auto;
+    padding: 0 20px 28px;
+  }
+  .filter-scroll {
+    display: flex; gap: 8px;
+    overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+  }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-line);
+    background: var(--warm-white);
+    font-family: var(--font-sans);
+    font-size: 12px; font-weight: 400;
+    color: var(--gray-text);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--orange-mid); color: var(--orange); }
+  .chip.active {
+    background: var(--brown);
+    border-color: var(--brown);
+    color: #FAF7F2;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 720px; margin: 0 auto 48px;
+    padding: 0 20px;
+  }
+  .section-head {
+    display: flex; align-items: baseline;
+    gap: 10px; margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-line);
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 16px; font-weight: 600; color: var(--brown);
+  }
+  .section-count {
+    font-size: 11px; color: var(--gray-text);
+  }
+  .section-badge {
+    margin-left: auto;
+    font-size: 10px; font-weight: 500;
+    padding: 3px 10px; border-radius: 10px;
+  }
+  .badge-best { background: var(--orange); color: #fff; }
+  .badge-cat  { background: var(--gray-bg); color: var(--brown-mid); }
+
+  /* ── BEST PICK CARDS ── */
+  .best-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .best-card {
+    background: var(--warm-white);
+    border: 1px solid var(--gray-line);
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .best-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--orange);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .best-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--orange-mid);
+    box-shadow: 0 8px 24px rgba(61,35,20,0.08);
+  }
+  .best-card:hover::before { transform: scaleX(1); }
+
+  .best-card-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 12px;
+  }
+  .rank-badge {
+    font-family: var(--font-serif);
+    font-size: 11px; font-weight: 600;
+    color: var(--orange); letter-spacing: 0.05em;
+  }
+  .tier-s {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+    background: var(--orange); color: #fff;
+    padding: 2px 8px; border-radius: 10px;
+  }
+  .product-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+  .product-cat-tag {
+    font-size: 10px; color: var(--orange); font-weight: 500;
+    letter-spacing: 0.08em; margin-bottom: 4px; display: block;
+  }
+  .product-name {
+    font-size: 14px; font-weight: 500; color: var(--brown);
+    line-height: 1.5; margin-bottom: 8px;
+  }
+  .product-reason {
+    font-size: 11px; color: var(--gray-text); line-height: 1.6;
+    padding-top: 8px; border-top: 1px solid var(--gray-line);
+  }
+  .product-reason strong {
+    color: var(--brown-mid); font-weight: 500;
+  }
+  .buy-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 12px;
+  }
+  .buy-btn {
+    font-size: 11px; font-weight: 500;
+    color: var(--orange);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .buy-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .stars { font-size: 10px; color: var(--orange-mid); letter-spacing: 1px; }
+
+  /* ── LIST CARDS ── */
+  .list-stack { display: flex; flex-direction: column; gap: 8px; }
+  .list-card {
+    background: var(--warm-white);
+    border: 1px solid var(--gray-line);
+    border-radius: 10px;
+    padding: 13px 16px;
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+  .list-card:hover {
+    border-color: var(--orange-mid);
+    background: var(--orange-light);
+  }
+  .list-emoji { font-size: 22px; flex-shrink: 0; width: 36px; text-align: center; }
+  .list-info { flex: 1; min-width: 0; }
+  .list-num { font-size: 10px; color: var(--gray-text); margin-bottom: 1px; }
+  .list-name {
+    font-size: 13px; font-weight: 500; color: var(--brown);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .list-tag {
+    font-size: 10px; font-weight: 500;
+    padding: 1px 7px; border-radius: 8px; margin-top: 3px;
+    display: inline-block;
+  }
+  .tag-kitchen { background: #FFF0E6; color: #BF3600; }
+  .tag-health  { background: #E8F5E9; color: #1B5E20; }
+  .tag-life    { background: #E3F2FD; color: #0D47A1; }
+  .tag-elec    { background: #EDE7F6; color: #4A148C; }
+  .list-arrow { color: var(--gray-line); font-size: 16px; flex-shrink: 0; }
+
+  /* ── HIDDEN for filter ── */
+  .product-item { transition: opacity 0.2s; }
+  .product-item.hide { display: none; }
+
+  /* ── NOTICE ── */
+  .notice {
+    max-width: 720px; margin: 0 auto 32px;
+    padding: 0 20px;
+  }
+  .notice-inner {
+    background: var(--gray-bg);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 11px; color: var(--gray-text); line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown);
+    color: rgba(250,247,242,0.5);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 11px; line-height: 1.9;
+  }
+  footer strong { color: rgba(250,247,242,0.85); font-weight: 500; }
+  footer a { color: var(--orange-mid); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    animation: fadeUp 0.45s ease both;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    max-width: 720px; margin: 0 auto 40px;
+    padding: 0 20px;
+    border: none; border-top: 1px solid var(--gray-line);
+  }
+
+  /* ── SCROLL TOP ── */
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 20px;
+    width: 40px; height: 40px;
+    background: var(--brown);
+    color: var(--cream);
+    border: none; border-radius: 50%;
+    font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+    z-index: 99;
+  }
+  .scroll-top.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-kr">셀렉<span>준</span></span>
+      <span class="logo-en">selec-jun</span>
+    </a>
+    <a href="mailto:your@email.com" class="header-contact">📩 비즈니스 문의</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-badge">✦ JUN'S CURATION</span>
+  <h1 class="hero-title">
+    직접 써보고,<br><em>진짜 좋은 것만</em> 골랐습니다
+  </h1>
+  <p class="hero-desc">
+    40대 자영업자 Jun이 실생활에서 직접 사용하고<br>
+    만족한 제품만 엄선한 생활 추천 링크 모음입니다.
+  </p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">카테고리</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="totalCount">0</span>
+      <span class="stat-label">추천 상품</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">S</span>
+      <span class="stat-label">Best Pick</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER -->
+<div class="filter-wrap">
+  <div class="filter-scroll">
+    <button class="chip active" onclick="filterAll(this)">전체 보기</button>
+    <button class="chip" onclick="filterCat('kitchen', this)">🍳 주방</button>
+    <button class="chip" onclick="filterCat('health', this)">💊 건강</button>
+    <button class="chip" onclick="filterCat('life', this)">🏠 생활</button>
+    <button class="chip" onclick="filterCat('elec', this)">🔌 가전</button>
+  </div>
+</div>
+
+<!-- BEST PICKS -->
+<section class="section" id="best-section">
+  <div class="section-head">
+    <h2 class="section-title">✦ Jun's Best Pick</h2>
+    <span class="section-count" id="bestCount"></span>
+    <span class="section-badge badge-best">S등급</span>
+  </div>
+  <div class="best-grid" id="bestGrid">
+
+    <a href="#" class="best-card product-item" data-cat="kitchen" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 01</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">🧂</span>
+      <span class="product-cat-tag">KITCHEN</span>
+      <p class="product-name">정량 분사형 양념통 180ml<br>소금·후추·설탕통 세트</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 매번 양이 달라서 간 맞추기 힘들었는데, 이거 쓰고부터 요리가 달라졌어요. 눌러서 딱 정량만 나오는 구조. 가격 대비 퀄리티 압도적.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★★</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="best-card product-item" data-cat="kitchen" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 02</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">🍳</span>
+      <span class="product-cat-tag">KITCHEN</span>
+      <p class="product-name">탐사 캠핑 그리들팬<br>+ 전용가방 세트</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 캠핑 가면 무조건 들고 가는 템. 집에서도 삼겹살 구울 때 최고. 전용가방까지 있어서 수납도 깔끔. 이 가격에 이 퀄리티면 진짜 이득.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★★</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="best-card product-item" data-cat="life" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 03</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">🪝</span>
+      <span class="product-cat-tag">LIFE</span>
+      <p class="product-name">자석 접착식 후크 선반<br>벽걸이 + 나사 세트</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 구멍 없이 붙는다고 해서 반신반의했는데 3년 넘게 떨어진 적 없어요. 주방 옆에 4개 붙여놓고 국자·뒤집개 다 걸어놓음. 강력 추천.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★★</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="best-card product-item" data-cat="health" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 04</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">🍗</span>
+      <span class="product-cat-tag">HEALTH</span>
+      <p class="product-name">마니커 녹두 삼계탕 냉장<br>900g × 2봉</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 직접 끓인 것처럼 국물이 진해요. 바쁠 때 데워서 밥 말아먹으면 진짜 든든. 냉장이라 냉동보다 맛이 살아있음. 집에 항상 구비.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★☆</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="best-card product-item" data-cat="elec" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 05</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">🔌</span>
+      <span class="product-cat-tag">APPLIANCE</span>
+      <p class="product-name">코멧 3단 파워수압<br>필터 샤워기 + 리필 4p</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 수압 약한 집에 진짜 최고예요. 3단 조절 되고 필터까지 있어서 물 색 보면 '이걸 그냥 맞고 있었나' 싶음. 리필 4개 같이 오는 것도 이득.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★★</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="best-card product-item" data-cat="health" onclick="return false;">
+      <div class="best-card-top">
+        <span class="rank-badge">BEST 06</span>
+        <span class="tier-s">S PICK</span>
+      </div>
+      <span class="product-emoji">💅</span>
+      <span class="product-cat-tag">HEALTH</span>
+      <p class="product-name">샤오미 SHOWLON<br>전동 손톱깎이 Pro</p>
+      <p class="product-reason">
+        <strong>Jun 코멘트 —</strong> 손톱 날리는 거 없이 갈아서 없어지는 방식. 부모님 선물로 드렸더니 엄청 좋아하심. 어르신들한테 특히 추천. 소음도 거의 없음.
+      </p>
+      <div class="buy-row">
+        <span class="stars">★★★★★</span>
+        <span class="buy-btn">
+          쿠팡에서 보기
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 주방 -->
+<section class="section" id="sec-kitchen">
+  <div class="section-head">
+    <h2 class="section-title">🍳 주방</h2>
+    <span class="section-count"></span>
+    <span class="section-badge badge-cat">조리 · 수납 · 세척</span>
+  </div>
+  <div class="list-stack">
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🥚</span>
+      <div class="list-info">
+        <div class="list-num"># 0378</div>
+        <div class="list-name">마메 전자레인지 에그메이커</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🪣</span>
+      <div class="list-info">
+        <div class="list-num"># 0377</div>
+        <div class="list-name">모다키친 인덕션 법랑냄비 1.45L + 유리뚜껑 + 튀김망</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🥗</span>
+      <div class="list-info">
+        <div class="list-num"># 0346</div>
+        <div class="list-name">모나코올리브 듀얼 슬라이스 에그커터</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🧼</span>
+      <div class="list-info">
+        <div class="list-num"># 0307</div>
+        <div class="list-name">동구밭 올바른 설거지 워싱바 300g</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🔧</span>
+      <div class="list-info">
+        <div class="list-num"># 0390</div>
+        <div class="list-name">모나코올리브 자동 쌀 씻기 이지 라이스워셔</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="kitchen" onclick="return false;">
+      <span class="list-emoji">🍶</span>
+      <div class="list-info">
+        <div class="list-num"># 0347</div>
+        <div class="list-name">티오뜨 원터치 밀폐 유리 양념통세트 3p + 트레이</div>
+        <span class="list-tag tag-kitchen">주방</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 건강 -->
+<section class="section" id="sec-health">
+  <div class="section-head">
+    <h2 class="section-title">💊 건강</h2>
+    <span class="section-count"></span>
+    <span class="section-badge badge-cat">식품 · 뷰티 · 위생</span>
+  </div>
+  <div class="list-stack">
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🥟</span>
+      <div class="list-info">
+        <div class="list-num"># 0360</div>
+        <div class="list-name">비비고 왕교자 냉동 1.05kg</div>
+        <span class="list-tag tag-health">건강식품</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🍖</span>
+      <div class="list-info">
+        <div class="list-num"># 0383</div>
+        <div class="list-name">진심담육 수제 경양식 등심 돈까스 120g × 10개</div>
+        <span class="list-tag tag-health">건강식품</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🧴</span>
+      <div class="list-info">
+        <div class="list-num"># 0302</div>
+        <div class="list-name">마데카21 수딩 미스트 토너 200ml</div>
+        <span class="list-tag tag-health">뷰티</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🧽</span>
+      <div class="list-info">
+        <div class="list-num"># 0340</div>
+        <div class="list-name">루아브 딥 클렌징 세안 스펀지 3개</div>
+        <span class="list-tag tag-health">뷰티</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🦷</span>
+      <div class="list-info">
+        <div class="list-num"># 0349</div>
+        <div class="list-name">솔레르 대용량 일회용 치실케이스 110pcs</div>
+        <span class="list-tag tag-health">위생</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="health" onclick="return false;">
+      <span class="list-emoji">🧈</span>
+      <div class="list-info">
+        <div class="list-num"># 0351</div>
+        <div class="list-name">바세린 인텐시브 케어 바디로션 드라이스킨 400ml</div>
+        <span class="list-tag tag-health">뷰티</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 생활 -->
+<section class="section" id="sec-life">
+  <div class="section-head">
+    <h2 class="section-title">🏠 생활</h2>
+    <span class="section-count"></span>
+    <span class="section-badge badge-cat">청소 · 수납 · 편의</span>
+  </div>
+  <div class="list-stack">
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🧹</span>
+      <div class="list-info">
+        <div class="list-num"># 0410</div>
+        <div class="list-name">더블유드레스룸 매직 폼 클리너 욕실세정제 550ml × 2개</div>
+        <span class="list-tag tag-life">청소</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🪣</span>
+      <div class="list-info">
+        <div class="list-num"># 0411</div>
+        <div class="list-name">탐사 줄눈 보수제 200g</div>
+        <span class="list-tag tag-life">청소</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🗂️</span>
+      <div class="list-info">
+        <div class="list-num"># 0323</div>
+        <div class="list-name">오코로 냉장고 정리 수납함 칸막이</div>
+        <span class="list-tag tag-life">수납</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🪟</span>
+      <div class="list-info">
+        <div class="list-num"># 0374</div>
+        <div class="list-name">홈스타 바르는 곰팡이 싹 세정제 120ml × 2개</div>
+        <span class="list-tag tag-life">청소</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🧺</span>
+      <div class="list-info">
+        <div class="list-num"># 0321</div>
+        <div class="list-name">베이지틴토 재활용 분리수거 봉투 거치대</div>
+        <span class="list-tag tag-life">생활</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="life" onclick="return false;">
+      <span class="list-emoji">🌿</span>
+      <div class="list-info">
+        <div class="list-num"># 0320</div>
+        <div class="list-name">착한하루 편백나무 방향 주머니 피톤치드 90g × 4개</div>
+        <span class="list-tag tag-life">생활</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 가전 -->
+<section class="section" id="sec-elec">
+  <div class="section-head">
+    <h2 class="section-title">🔌 가전</h2>
+    <span class="section-count"></span>
+    <span class="section-badge badge-cat">소형 · 주방 · 생활가전</span>
+  </div>
+  <div class="list-stack">
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">💆</span>
+      <div class="list-info">
+        <div class="list-num"># 0289</div>
+        <div class="list-name">ELLE 페이스 마사지 쿨링스틱 마사지기</div>
+        <span class="list-tag tag-elec">뷰티가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">🚿</span>
+      <div class="list-info">
+        <div class="list-num"># 0403</div>
+        <div class="list-name">코멧 정수 필터 샤워기 + 리필 필터 12p</div>
+        <span class="list-tag tag-elec">욕실가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">🌀</span>
+      <div class="list-info">
+        <div class="list-num"># 0389</div>
+        <div class="list-name">스피세프 수동 거품기 다기능 계란 휘핑기</div>
+        <span class="list-tag tag-elec">주방가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">🔋</span>
+      <div class="list-info">
+        <div class="list-num"># 0326</div>
+        <div class="list-name">마켓플랜 템바보드 핸드폰 거치 멀티탭 정리함 × 2개</div>
+        <span class="list-tag tag-elec">생활가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">🪒</span>
+      <div class="list-info">
+        <div class="list-num"># 0348</div>
+        <div class="list-name">샤오미 SHOWLON 전동 손톱깎이 Pro (화이트)</div>
+        <span class="list-tag tag-elec">뷰티가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+    <a href="#" class="list-card product-item" data-cat="elec" onclick="return false;">
+      <span class="list-emoji">🧲</span>
+      <div class="list-info">
+        <div class="list-num"># 0315</div>
+        <div class="list-name">강력 자석 키친타올 걸이 (화이트)</div>
+        <span class="list-tag tag-elec">주방가전</span>
+      </div>
+      <span class="list-arrow">›</span>
+    </a>
+  </div>
+</section>
+
+<!-- NOTICE -->
+<div class="notice">
+  <div class="notice-inner">
+    ※ 이 페이지의 링크는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.<br>
+    구매 가격이나 조건에는 영향을 미치지 않으며, Jun이 직접 선정한 상품만 등록합니다.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>셀렉준 · selec-jun</strong><br>
+  Jun이 직접 써보고 고른 생활 추천 링크 모음<br>
+  비즈니스 문의 · <a href="mailto:your@email.com">your@email.com</a><br><br>
+  © 2025 selec-jun. All rights reserved.
+</footer>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑</button>
+
+<script>
+  // 총 상품 수 카운트
+  const allItems = document.querySelectorAll('.product-item');
+  document.getElementById('totalCount').textContent = allItems.length;
+
+  // 스크롤 탑 버튼
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scrollTop');
+    btn.classList.toggle('visible', window.scrollY > 300);
+  });
+
+  // 카테고리 필터
+  function filterAll(el) {
+    setActiveChip(el);
+    allItems.forEach(item => item.classList.remove('hide'));
+    document.getElementById('best-section').style.display = '';
+    document.querySelectorAll('hr.divider, section.section').forEach(s => s.style.display = '');
+  }
+
+  function filterCat(cat, el) {
+    setActiveChip(el);
+    // Best Pick 섹션 — 해당 카테고리만 보이게
+    const bestItems = document.querySelectorAll('#bestGrid .product-item');
+    let bestVisible = 0;
+    bestItems.forEach(item => {
+      if (item.dataset.cat === cat) {
+        item.classList.remove('hide');
+        bestVisible++;
+      } else {
+        item.classList.add('hide');
+      }
+    });
+    document.getElementById('best-section').style.display = bestVisible === 0 ? 'none' : '';
+
+    // 목록 카드 필터
+    const listItems = document.querySelectorAll('.list-stack .product-item');
+    listItems.forEach(item => {
+      item.classList.toggle('hide', item.dataset.cat !== cat);
+    });
+
+    // 카테고리 섹션 통째로 숨기기
+    ['kitchen','health','life','elec'].forEach(c => {
+      const sec = document.getElementById('sec-' + c);
+      if (sec) sec.style.display = (c === cat) ? '' : 'none';
+    });
+
+    // divider 처리
+    document.querySelectorAll('hr.divider').forEach(d => d.style.display = 'none');
+  }
+
+  function setActiveChip(el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // 페이드인 on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('fade-in');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.best-card, .list-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
