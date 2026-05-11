@@ -174,7 +174,7 @@
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑</button>
 
 <script>
-var PRODUCTS = ["https://coupa.ng/cmPCJJ","https://coupa.ng/cmPDvv","https://coupa.ng/cmPHwD","https://coupa.ng/cmPHQm"];
+var PRODUCTS = [];
 
 function getSettings() {
   return {
@@ -222,6 +222,10 @@ function setStatus(color, text) {
   document.getElementById("statusText").textContent = text;
 }
 
+// PRODUCTS 배열: {src, link} 객체 또는 이전 버전 호환 문자열
+function getSrc(p)  { return typeof p === "string" ? p : p.src; }
+function getLink(p) { return typeof p === "string" ? p : (p.link || p.src); }
+
 function renderGrid() {
   var grid = document.getElementById("productGrid");
   grid.innerHTML = "";
@@ -230,20 +234,32 @@ function renderGrid() {
     document.getElementById("totalCount").textContent = 0;
     return;
   }
-  PRODUCTS.forEach(function(src, idx) {
+  PRODUCTS.forEach(function(p, idx) {
+    var src  = getSrc(p);
+    var link = getLink(p);
+
     var a = document.createElement("a");
-    a.href = src; a.target = "_blank"; a.className = "product-card";
+    a.href = link;
+    a.target = "_blank";
+    a.className = "product-card";
     a.style.animationDelay = (idx * 0.06) + "s";
+
     var iframe = document.createElement("iframe");
-    iframe.src = src; iframe.scrolling = "no";
+    iframe.src = src;
+    iframe.scrolling = "no";
     iframe.setAttribute("referrerpolicy", "unsafe-url");
+
     var delBtn = document.createElement("button");
-    delBtn.className = "delete-btn"; delBtn.innerHTML = "&#10005;"; delBtn.title = "삭제";
+    delBtn.className = "delete-btn";
+    delBtn.innerHTML = "&#10005;";
+    delBtn.title = "삭제";
     delBtn.onclick = function(e) {
       e.preventDefault(); e.stopPropagation();
       if (confirm("이 상품을 삭제할까요?")) deleteProduct(idx);
     };
-    a.appendChild(iframe); a.appendChild(delBtn);
+
+    a.appendChild(iframe);
+    a.appendChild(delBtn);
     grid.appendChild(a);
   });
   document.getElementById("totalCount").textContent = PRODUCTS.length;
@@ -286,18 +302,33 @@ async function updateGitHub(newProducts) {
 
 async function addProduct() {
   var raw = document.getElementById("ai-iframe").value.trim();
-  if (!raw || raw.indexOf("coupa.ng") === -1) { alert("쿠팡 파트너스 HTML 코드를 붙여넣어 주세요!"); return; }
-  var m = raw.match(/src="([^"]+)"/);
-  if (!m) { alert("iframe src를 찾을 수 없어요."); return; }
-  var src = m[1];
-  if (PRODUCTS.indexOf(src) !== -1) { alert("이미 등록된 상품이에요!"); return; }
+  if (!raw || raw.indexOf("coupa.ng") === -1) {
+    alert("쿠팡 파트너스 HTML 코드를 붙여넣어 주세요!");
+    return;
+  }
+
+  // iframe src 추출 (이미지 표시용)
+  var srcMatch = raw.match(/src="([^"]+)"/);
+  if (!srcMatch) { alert("iframe src를 찾을 수 없어요."); return; }
+  var src = srcMatch[1];
+
+  // 클릭 링크: coupa.ng 주소 = 바로 쿠팡 연결
+  // src 자체가 coupa.ng 주소이므로 그대로 사용
+  var link = src;
+
+  // 중복 체크
+  for (var i = 0; i < PRODUCTS.length; i++) {
+    if (getSrc(PRODUCTS[i]) === src) { alert("이미 등록된 상품이에요!"); return; }
+  }
+
   var btn = document.getElementById("addBtn");
   var bar = document.getElementById("progressBar");
   var msg = document.getElementById("resultMsg");
   btn.disabled = true; btn.textContent = "업데이트 중...";
   bar.classList.add("show"); msg.className = "result-msg"; msg.style.display = "none";
+
   try {
-    var newProducts = PRODUCTS.concat([src]);
+    var newProducts = PRODUCTS.concat([{ src: src, link: link }]);
     await updateGitHub(newProducts);
     PRODUCTS = newProducts;
     renderGrid();
@@ -333,7 +364,9 @@ function toggleEdit() {
   var btn = document.getElementById("editToggle");
   btn.classList.toggle("active", editMode);
   btn.textContent = editMode ? "✓ 완료" : "✎ 편집";
-  document.querySelectorAll(".product-card").forEach(function(c) { c.classList.toggle("edit-mode", editMode); });
+  document.querySelectorAll(".product-card").forEach(function(c) {
+    c.classList.toggle("edit-mode", editMode);
+  });
   if (editMode && document.getElementById("adminBox").classList.contains("open")) {
     document.getElementById("adminBox").classList.remove("open");
   }
