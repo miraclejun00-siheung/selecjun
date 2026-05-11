@@ -174,12 +174,8 @@
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑</button>
 
 <script>
-// ── 상품 데이터 (HTML에 직접 저장)
-// 아래 PRODUCTS 배열이 실제 상품 목록입니다
-var PRODUCTS = [
-];
+var PRODUCTS = [];
 
-// ── GitHub 설정 (localStorage에 저장)
 function getSettings() {
   return {
     token: localStorage.getItem("sj_token") || "",
@@ -196,8 +192,9 @@ function saveToken() {
   localStorage.setItem("sj_token", token);
   localStorage.setItem("sj_owner", owner);
   localStorage.setItem("sj_repo",  repo);
-  document.getElementById("settingSaved").style.display = "block";
-  setTimeout(function() { document.getElementById("settingSaved").style.display = "none"; }, 2500);
+  var el = document.getElementById("settingSaved");
+  el.style.display = "block";
+  setTimeout(function() { el.style.display = "none"; }, 2500);
 }
 
 function loadSettingFields() {
@@ -215,28 +212,21 @@ async function testConnection() {
     var res = await fetch("https://api.github.com/repos/" + s.owner + "/" + s.repo, {
       headers: { "Authorization": "token " + s.token, "Accept": "application/vnd.github.v3+json" }
     });
-    if (res.ok) {
-      setStatus("green", "✓ 연결 성공! 상품 추가 준비됐어요");
-    } else {
-      setStatus("red", "✗ 연결 실패 — Token 또는 저장소 이름을 확인해주세요");
-    }
-  } catch(e) {
-    setStatus("red", "✗ 네트워크 오류");
-  }
+    if (res.ok) { setStatus("green", "✓ 연결 성공! 상품 추가 준비됐어요"); }
+    else { setStatus("red", "✗ 연결 실패 — Token 또는 저장소 이름을 확인해주세요"); }
+  } catch(e) { setStatus("red", "✗ 네트워크 오류"); }
 }
 
 function setStatus(color, text) {
-  var dot = document.getElementById("statusDot");
-  dot.className = "dot dot-" + color;
+  document.getElementById("statusDot").className = "dot dot-" + color;
   document.getElementById("statusText").textContent = text;
 }
 
-// ── 화면 렌더링
 function renderGrid() {
   var grid = document.getElementById("productGrid");
   grid.innerHTML = "";
-  if (PRODUCTS.length === 0) {
-    grid.innerHTML = "<div class=\"empty-msg\">아직 등록된 상품이 없어요.<br>아래 상품 추가하기를 눌러보세요!</div>";
+  if (!PRODUCTS || PRODUCTS.length === 0) {
+    grid.innerHTML = '<div class="empty-msg">아직 등록된 상품이 없어요.<br>아래 상품 추가하기를 눌러보세요!</div>';
     document.getElementById("totalCount").textContent = 0;
     return;
   }
@@ -248,7 +238,7 @@ function renderGrid() {
     iframe.src = src; iframe.scrolling = "no";
     iframe.setAttribute("referrerpolicy", "unsafe-url");
     var delBtn = document.createElement("button");
-    delBtn.className = "delete-btn"; delBtn.innerHTML = "✕"; delBtn.title = "삭제";
+    delBtn.className = "delete-btn"; delBtn.innerHTML = "&#10005;"; delBtn.title = "삭제";
     delBtn.onclick = function(e) {
       e.preventDefault(); e.stopPropagation();
       if (confirm("이 상품을 삭제할까요?")) deleteProduct(idx);
@@ -259,35 +249,26 @@ function renderGrid() {
   document.getElementById("totalCount").textContent = PRODUCTS.length;
 }
 
-// ── GitHub API로 파일 업데이트
 async function updateGitHub(newProducts) {
   var s = getSettings();
   if (!s.token || !s.owner || !s.repo) {
     throw new Error("GitHub 설정이 없어요. 먼저 설정을 저장해주세요!");
   }
   var apiUrl = "https://api.github.com/repos/" + s.owner + "/" + s.repo + "/contents/index.html";
-
-  // 현재 파일 SHA 가져오기
   var getRes = await fetch(apiUrl, {
     headers: { "Authorization": "token " + s.token, "Accept": "application/vnd.github.v3+json" }
   });
   if (!getRes.ok) throw new Error("파일을 찾을 수 없어요. 저장소 이름을 확인해주세요.");
   var fileData = await getRes.json();
   var sha = fileData.sha;
-
-  // 현재 HTML 가져와서 PRODUCTS 배열 업데이트
-  var currentHtml = atob(fileData.content.replace(/
-/g, ""));
-  var newProductsJson = JSON.stringify(newProducts);
+  var b64clean = fileData.content.replace(/[\r\n]/g, "");
+  var currentHtml = decodeURIComponent(escape(atob(b64clean)));
+  var newJson = JSON.stringify(newProducts);
   var updatedHtml = currentHtml.replace(
     /var PRODUCTS = \[[\s\S]*?\];/,
-    "var PRODUCTS = " + newProductsJson + ";"
+    "var PRODUCTS = " + newJson + ";"
   );
-
-  // Base64 인코딩 (한글 포함)
   var encoded = btoa(unescape(encodeURIComponent(updatedHtml)));
-
-  // 파일 업데이트 PUT 요청
   var putRes = await fetch(apiUrl, {
     method: "PUT",
     headers: {
@@ -295,11 +276,7 @@ async function updateGitHub(newProducts) {
       "Accept": "application/vnd.github.v3+json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      message: "상품 업데이트 (" + newProducts.length + "개)",
-      content: encoded,
-      sha: sha
-    })
+    body: JSON.stringify({ message: "상품 업데이트 (" + newProducts.length + "개)", content: encoded, sha: sha })
   });
   if (!putRes.ok) {
     var err = await putRes.json();
@@ -307,7 +284,6 @@ async function updateGitHub(newProducts) {
   }
 }
 
-// ── 상품 추가
 async function addProduct() {
   var raw = document.getElementById("ai-iframe").value.trim();
   if (!raw || raw.indexOf("coupa.ng") === -1) { alert("쿠팡 파트너스 HTML 코드를 붙여넣어 주세요!"); return; }
@@ -315,14 +291,11 @@ async function addProduct() {
   if (!m) { alert("iframe src를 찾을 수 없어요."); return; }
   var src = m[1];
   if (PRODUCTS.indexOf(src) !== -1) { alert("이미 등록된 상품이에요!"); return; }
-
   var btn = document.getElementById("addBtn");
   var bar = document.getElementById("progressBar");
   var msg = document.getElementById("resultMsg");
-
   btn.disabled = true; btn.textContent = "업데이트 중...";
   bar.classList.add("show"); msg.className = "result-msg"; msg.style.display = "none";
-
   try {
     var newProducts = PRODUCTS.concat([src]);
     await updateGitHub(newProducts);
@@ -341,7 +314,6 @@ async function addProduct() {
   }
 }
 
-// ── 상품 삭제
 async function deleteProduct(idx) {
   var btn = document.getElementById("addBtn");
   btn.disabled = true;
@@ -352,21 +324,16 @@ async function deleteProduct(idx) {
     renderGrid();
   } catch(e) {
     alert("삭제 오류: " + e.message);
-  } finally {
-    btn.disabled = false;
-  }
+  } finally { btn.disabled = false; }
 }
 
-// ── 편집 모드
 var editMode = false;
 function toggleEdit() {
   editMode = !editMode;
   var btn = document.getElementById("editToggle");
   btn.classList.toggle("active", editMode);
   btn.textContent = editMode ? "✓ 완료" : "✎ 편집";
-  document.querySelectorAll(".product-card").forEach(function(c) {
-    c.classList.toggle("edit-mode", editMode);
-  });
+  document.querySelectorAll(".product-card").forEach(function(c) { c.classList.toggle("edit-mode", editMode); });
   if (editMode && document.getElementById("adminBox").classList.contains("open")) {
     document.getElementById("adminBox").classList.remove("open");
   }
@@ -377,12 +344,10 @@ function toggleAdmin() {
   if (editMode) toggleEdit();
 }
 
-// 스크롤 탑
 window.addEventListener("scroll", function() {
   document.getElementById("scrollTop").classList.toggle("visible", window.scrollY > 300);
 });
 
-// 초기화
 loadSettingFields();
 renderGrid();
 </script>
